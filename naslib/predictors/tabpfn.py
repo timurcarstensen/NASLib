@@ -1,10 +1,9 @@
-from tabpfn_client import init, TabPFNRegressor
-from .predictor import Predictor
-from naslib.predictors.utils.encodings import encode
 import numpy as np
-import logging
+from tabpfn_client import TabPFNRegressor, init
 
-logger = logging.getLogger(__name__)
+from naslib.predictors.utils.encodings import encode
+
+from .predictor import Predictor
 
 
 class TabPFN(Predictor):
@@ -32,11 +31,28 @@ class TabPFN(Predictor):
             ]
         )
 
-        logger.info("xtrain type: %s", type(xtrain))
-        logger.info("ytrain type: %s", type(ytrain))
-        logger.info("Fitting TabPFN")
+        if isinstance(xtrain, list):
+            xtrain = np.array(xtrain)
+        if isinstance(ytrain, list):
+            ytrain = np.array(ytrain)
+
         self.model.fit(xtrain, ytrain)
-        logger.info("Fitted TabPFN")
+
+    def query(self, xtest, info=None):
+        if type(xtest) is list:
+            #  when used in itself, we use
+            xtest = np.array(
+                [
+                    encode(arch, encoding_type=self.encoding_type, ss_type=self.ss_type)
+                    for arch in xtest
+                ]
+            )
+
+        else:
+            # when used in aug_lcsvr we feed in ndarray directly
+            xtest = xtest
+
+        return np.squeeze(self.model.predict(xtest))
 
     def predict(self, xtest, info=None):
         if self.encoding_type != "adjacency_one_hot":
@@ -48,10 +64,7 @@ class TabPFN(Predictor):
                 for arch in xtest
             ]
         )
-        logger.info("Predicting with TabPFN")
-        output = self.model.predict(xtest)
-        logger.info("Predicted with TabPFN")
-        return output
+        return np.squeeze(self.model.predict(xtest))
 
     def get_data_reqs(self):
         """
