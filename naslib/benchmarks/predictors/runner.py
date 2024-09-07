@@ -28,6 +28,7 @@ from naslib.predictors import (
     XGBoost,
     ZeroCostV1,
     ZeroCostV2,
+    TabPFN,
 )
 
 from naslib.search_spaces.core.query_metrics import Metric
@@ -49,6 +50,7 @@ logger.setLevel(logging.INFO)
 utils.log_args(config)
 
 supported_predictors = {
+    "tabpfn": TabPFN(encoding_type="adjacency_one_hot", hpo_wrapper=False),
     "bananas": Ensemble(predictor_type="bananas", num_ensemble=3, hpo_wrapper=True),
     "bayes_lin_reg": BayesianLinearRegression(encoding_type="adjacency_one_hot"),
     "bohamiann": BOHAMIANN(encoding_type="adjacency_one_hot"),

@@ -9,6 +9,7 @@ import torch
 from scipy import stats
 from sklearn import metrics
 import math
+from tqdm import tqdm
 
 from naslib.search_spaces.core.query_metrics import Metric
 from naslib.utils import generate_kfold, cross_validation
@@ -298,6 +299,7 @@ class PredictorEvaluator(object):
         hyperparams = self.predictor.get_hyperparams()
 
         fit_time_end = time.time()
+        logger.info("Query the predictor")
         test_pred = self.predictor.query(xtest, test_info)
         query_time_end = time.time()
 
@@ -386,7 +388,8 @@ class PredictorEvaluator(object):
 
         elif self.experiment_type == "vary_train_size":
             fidelity = self.fidelity_single
-            for train_size in self.train_size_list:
+            logger.info("Varying train size")
+            for train_size in tqdm(self.train_size_list):
                 train_data = [data[:train_size] for data in full_train_data]
                 self.single_evaluate(train_data, test_data, fidelity=fidelity)
 

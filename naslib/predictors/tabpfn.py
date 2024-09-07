@@ -1,13 +1,17 @@
 from tabpfn_client import init, TabPFNRegressor
 from .predictor import Predictor
+from naslib.predictors.utils.encodings import encode
 import numpy as np
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class TabPFN(Predictor):
     def __init__(
         self,
         encoding_type="adjacency_one_hot",
-        ss_type="nasbench201",
+        ss_type=None,
         hpo_wrapper=False,
     ):
         super().__init__()
@@ -22,18 +26,29 @@ class TabPFN(Predictor):
             raise NotImplementedError()
 
         xtrain = np.array(
-            [arch.encode(encoding_type=self.encoding_type) for arch in xtrain]
+            [
+                encode(arch, encoding_type=self.encoding_type, ss_type=self.ss_type)
+                for arch in xtrain
+            ]
         )
+        logger.info("Fitting TabPFN")
         self.model.fit(xtrain, ytrain)
+        logger.info("Fitted TabPFN")
 
     def predict(self, xtest, info=None):
         if self.encoding_type != "adjacency_one_hot":
             raise NotImplementedError()
 
         xtest = np.array(
-            [arch.encode(encoding_type=self.encoding_type) for arch in xtest]
+            [
+                encode(arch, encoding_type=self.encoding_type, ss_type=self.ss_type)
+                for arch in xtest
+            ]
         )
-        return self.model.predict(xtest)
+        logger.info("Predicting with TabPFN")
+        output = self.model.predict(xtest)
+        logger.info("Predicted with TabPFN")
+        return output
 
     def get_data_reqs(self):
         """

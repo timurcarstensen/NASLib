@@ -6,7 +6,7 @@
 # bayes_lin_reg bohamiann dngo \
 # gp sparse_gp var_sparse_gp)
 
-predictors=(fisher grad_norm grasp jacov snip synflow xgb)
+predictors=(tabpfn xgb)
 
 # experiment_types=(single single single single single single \
 # vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity \
@@ -16,9 +16,7 @@ predictors=(fisher grad_norm grasp jacov snip synflow xgb)
 # vary_train_size vary_train_size vary_train_size \
 # vary_train_size vary_train_size vary_train_size)
 
-experiment_types=(vary_train_size vary_train_size
-    vary_train_size vary_train_size vary_train_size
-    vary_train_size vary_train_size vary_train_size)
+experiment_types=(vary_train_size vary_train_size)
 
 start_seed=$1
 if [ -z "$start_seed" ]; then
