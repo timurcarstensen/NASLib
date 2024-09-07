@@ -33,7 +33,6 @@ from .nasbench1_ops import *
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 class Network(nn.Module):
     def __init__(self, spec, stem_out, num_stacks, num_mods, num_classes, bn=True):

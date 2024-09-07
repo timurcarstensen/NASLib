@@ -1,8 +1,8 @@
 import logging
 
 from naslib.defaults.trainer import Trainer
-from naslib.optimizers import DARTSOptimizer, GDASOptimizer, RandomSearch
-from naslib.search_spaces import DartsSearchSpace, SimpleCellSearchSpace
+from naslib.optimizers import DARTSOptimizer
+from naslib.search_spaces import DartsSearchSpace
 
 from naslib.utils import set_seed, setup_logger, get_config_from_args
 

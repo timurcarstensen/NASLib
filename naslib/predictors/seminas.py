@@ -6,19 +6,13 @@ from __future__ import division
 from __future__ import print_function
 
 import logging
-import itertools
-import os
-import random
-import sys
 import math
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
-from torch.utils.data import DataLoader
 
-from naslib.utils.utils import AverageMeterGroup, AverageMeter
+from naslib.utils.utils import AverageMeter
 from naslib.predictors.utils.encodings import encode
 from naslib.predictors.predictor import Predictor
 from naslib.predictors.trees.ngb import loguniform

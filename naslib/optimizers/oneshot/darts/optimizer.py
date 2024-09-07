@@ -8,7 +8,6 @@ from naslib.optimizers.core.metaclasses import MetaOptimizer
 from naslib.utils.utils import count_parameters_in_MB
 from naslib.search_spaces.core.query_metrics import Metric
 
-import naslib.search_spaces.core.primitives as ops
 
 logger = logging.getLogger(__name__)
 

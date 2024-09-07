@@ -1,14 +1,7 @@
 import unittest
-import logging
-import torch
-import os
-import argparse
 
-from collections import namedtuple
 
-from naslib.search_spaces import SimpleCellSearchSpace
-from naslib.optimizers import DARTSOptimizer, GDASOptimizer
-from naslib.utils import utils, setup_logger
+from naslib.utils import utils
 
 
 class UtilsTest(unittest.TestCase):

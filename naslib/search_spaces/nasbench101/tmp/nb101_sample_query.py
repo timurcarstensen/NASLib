@@ -1,8 +1,5 @@
 from nasbench import api
-import copy
 import numpy as np
-import matplotlib.pyplot as plt
-import random
 import os
 # from naslib.utils.utils import get_project_root
 

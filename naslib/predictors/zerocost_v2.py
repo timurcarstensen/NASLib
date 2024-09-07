@@ -7,7 +7,6 @@ of jacov and snip. Particularly, the original jacov implementation tends to
 perform better than the one in this file.
 """
 
-import random
 import numpy as np
 import torch
 import logging

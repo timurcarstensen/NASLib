@@ -1,19 +1,13 @@
 import logging
-import sys
 import glob
 import os
 
 from fvcore.common.checkpoint import Checkpointer
 
-from naslib.defaults.trainer import Trainer
 from naslib.optimizers import DARTSOptimizer, GDASOptimizer, RandomSearch
-from naslib.optimizers.discrete.re.optimizer import RegularizedEvolution
 
 from naslib.search_spaces import (
-    DartsSearchSpace, 
-    SimpleCellSearchSpace, 
-    NasBench201SearchSpace, 
-    HierarchicalSearchSpace,
+    NasBench201SearchSpace,
 )
 
 from naslib.utils import utils, setup_logger

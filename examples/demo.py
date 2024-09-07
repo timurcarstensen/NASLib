@@ -1,15 +1,10 @@
-import logging
-import sys
 
 from naslib.defaults.trainer import Trainer
 from naslib.optimizers import DARTSOptimizer, GDASOptimizer, RandomSearch, \
 RegularizedEvolution, LocalSearch, Bananas, BasePredictor
 
 from naslib.search_spaces import (
-    DartsSearchSpace, 
-    SimpleCellSearchSpace, 
-    NasBench201SearchSpace, 
-    HierarchicalSearchSpace,
+    NasBench201SearchSpace,
 )
 
 # from naslib.search_spaces.nasbench101 import graph

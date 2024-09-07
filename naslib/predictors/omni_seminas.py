@@ -7,33 +7,24 @@ from __future__ import print_function
 
 import logging
 import copy
-import itertools
-import os
-import random
-import sys
 import math
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
-from torch.utils.data import DataLoader
 
 from naslib.utils import utils
-from naslib.utils.utils import AverageMeterGroup, AverageMeter
+from naslib.utils.utils import AverageMeter
 
 from naslib.predictors.utils.encodings import encode
 from naslib.predictors.utils.bin_thresholds import discretize, get_bins, get_lce_bins
 from naslib.predictors.predictor import Predictor
 from naslib.predictors.trees.ngb import loguniform
-from naslib.predictors.predictor import Predictor
 from naslib.predictors.lcsvr import loguniform
 from naslib.predictors.zerocost_v1 import ZeroCostV1
 from naslib.predictors.zerocost_v2 import ZeroCostV2
 
 from naslib.search_spaces.core.query_metrics import Metric
-from naslib.search_spaces.nasbench201.conversions import convert_op_indices_to_naslib
-from naslib.search_spaces import NasBench201SearchSpace
 
 logger = logging.getLogger(__name__)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

@@ -1,12 +1,9 @@
-import numpy as np
-import networkx as nx
 from torch import nn
 from copy import deepcopy
 
 from naslib.search_spaces.core.graph import Graph, EdgeData
 from naslib.search_spaces.core import primitives as ops
 
-from ..darts.graph import _truncate_input_edges
 from ..darts.primitives import FactorizedReduce
 
 

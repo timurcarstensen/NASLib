@@ -1,17 +1,11 @@
-import collections
 import logging
 import torch
-import copy
-import random
-import numpy as np
 
 from naslib.optimizers.core.metaclasses import MetaOptimizer
 
 from naslib.search_spaces.core.query_metrics import Metric
-from naslib.search_spaces.nasbench201.graph import NasBench201SearchSpace
 
-from naslib.utils.utils import AttrDict, count_parameters_in_MB
-from naslib.utils.logging import log_every_n_seconds
+from naslib.utils.utils import count_parameters_in_MB
 
 logger = logging.getLogger(__name__)
 

@@ -1,13 +1,10 @@
 import glob
 import json
-import os
 
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import rcParams
 from util import get_trajectories, plot_losses
-from IPython import embed
 
 #rcParams.update({'figure.autolayout': True})
 #plt.style.use('seaborn-whitegrid')

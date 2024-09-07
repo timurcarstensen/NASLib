@@ -8,20 +8,17 @@ from torch.utils.data import Dataset
 from sklearn import metrics
 from scipy import stats
 
-from copy import copy
 from collections import OrderedDict
 
 import random
 import os
 import os.path
-import shutil
-from functools import wraps, partial
+from functools import partial
 from pathlib import Path
 
 import numpy as np
 import torch
 import torchvision.transforms as transforms
-import yaml
 
 from fvcore.common.checkpoint import Checkpointer as fvCheckpointer
 from fvcore.common.config import CfgNode
@@ -616,7 +613,7 @@ class Cutout(object):
         return img
 
 
-from typing import Any, Dict, Iterable, List, NamedTuple, Optional, Tuple
+from typing import List, Optional
 from fvcore.common.file_io import PathManager
 import os
 

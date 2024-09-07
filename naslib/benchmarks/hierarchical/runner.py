@@ -1,8 +1,7 @@
 import logging
-import sys
 
 from naslib.defaults.trainer import Trainer
-from naslib.optimizers import DARTSOptimizer, GDASOptimizer, RandomSearch
+from naslib.optimizers import DARTSOptimizer, GDASOptimizer
 from naslib.utils import utils, setup_logger
 
 from naslib.search_spaces.hierarchical.graph import HierarchicalSearchSpace, LiuFinalArch

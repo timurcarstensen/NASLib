@@ -4,10 +4,6 @@
 # One-shot Neural Architecture Search with BONAS
 # We added cosine annealing.
 
-import itertools
-import os
-import random
-import sys
 import math
 import numpy as np
 import torch

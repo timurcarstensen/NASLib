@@ -1,11 +1,9 @@
 import logging
-import sys
-import naslib as nl
 
 from naslib.defaults.trainer import Trainer
 from naslib.optimizers import DARTSOptimizer, GDASOptimizer, \
 OneShotNASOptimizer, RandomNASOptimizer, RandomSearch, \
-RegularizedEvolution, LocalSearch, Bananas, BasePredictor
+RegularizedEvolution, Bananas, BasePredictor
 
 from naslib.search_spaces import NasBench201SearchSpace
 from naslib.utils import utils, setup_logger, get_dataset_api

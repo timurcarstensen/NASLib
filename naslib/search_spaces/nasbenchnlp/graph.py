@@ -1,12 +1,7 @@
-import os
-import pickle
 import numpy as np
-import copy
-import random
 
 from naslib.search_spaces.core.query_metrics import Metric
 from naslib.search_spaces.core.graph import Graph
-from naslib.utils.utils import get_project_root
 
 
 class NasBenchNLPSearchSpace(Graph):

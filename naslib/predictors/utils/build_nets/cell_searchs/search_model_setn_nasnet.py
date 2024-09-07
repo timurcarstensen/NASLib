@@ -6,7 +6,7 @@
 import torch
 import torch.nn as nn
 from copy import deepcopy
-from typing import List, Text, Dict
+from typing import List, Text
 from .search_cells     import NASNetSearchCell as SearchCell
 
 

@@ -1,12 +1,11 @@
 import itertools
 
-import matplotlib.pyplot as plt
 import numpy as np
 from nasbench import api
 
 from nasbench1shot1.core.search_space import SearchSpace
 from nasbench1shot1.core.utils import upscale_to_nasbench_format, OUTPUT_NODE, INPUT, CONV1X1, OUTPUT
-from nasbench1shot1.core.wrappers import Model, Architecture, NasbenchWrapper
+from nasbench1shot1.core.wrappers import Model, Architecture
 
 
 class SearchSpace1(SearchSpace):

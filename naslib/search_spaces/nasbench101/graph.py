@@ -1,19 +1,14 @@
-import os
-import pickle
 import numpy as np
 import copy
 import random
 import torch
-import torch.nn as nn
 
 from naslib.search_spaces.core import primitives as ops
-from naslib.search_spaces.core.graph import Graph, EdgeData
-from naslib.search_spaces.core.primitives import AbstractPrimitive
+from naslib.search_spaces.core.graph import Graph
 from naslib.search_spaces.core.query_metrics import Metric
 from naslib.search_spaces.nasbench101.conversions import convert_naslib_to_spec, \
-convert_spec_to_naslib, convert_spec_to_tuple
+convert_spec_to_tuple
 
-from naslib.utils.utils import get_project_root
 
 from .primitives import ReLUConvBN
 

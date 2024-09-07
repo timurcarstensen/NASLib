@@ -1,18 +1,25 @@
-predictors=(fisher grad_norm grasp jacov snip synflow \
-lce lce_m sotl sotle valacc valloss \
-lcsvr omni_ngb omni_seminas \
-bananas bonas gcn mlp nao seminas \
-lgb ngb rf xgb \
-bayes_lin_reg bohamiann dngo \
-gp sparse_gp var_sparse_gp)
+# predictors=(fisher grad_norm grasp jacov snip synflow \
+# lce lce_m sotl sotle valacc valloss \
+# lcsvr omni_ngb omni_seminas \
+# bananas bonas gcn mlp nao seminas \
+# lgb ngb rf xgb \
+# bayes_lin_reg bohamiann dngo \
+# gp sparse_gp var_sparse_gp)
 
-experiment_types=(single single single single single single \
-vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity \
-vary_both vary_both vary_both \
-vary_train_size vary_train_size vary_train_size vary_train_size vary_train_size vary_train_size \
-vary_train_size vary_train_size vary_train_size vary_train_size \
-vary_train_size vary_train_size vary_train_size \
-vary_train_size vary_train_size vary_train_size)
+predictors=(xgb)
+
+
+
+# experiment_types=(single single single single single single \
+# vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity \
+# vary_both vary_both vary_both \
+# vary_train_size vary_train_size vary_train_size vary_train_size vary_train_size vary_train_size \
+# vary_train_size vary_train_size vary_train_size vary_train_size \
+# vary_train_size vary_train_size vary_train_size \
+# vary_train_size vary_train_size vary_train_size)
+
+experiment_types=(vary_train_size)
+
 
 start_seed=$1
 if [ -z "$start_seed" ]
@@ -21,19 +28,21 @@ then
 fi
 
 # folders:
-base_file=NASLib/naslib
+base_file=./naslib
 s3_folder=p201_im
 out_dir=$s3_folder\_$start_seed
 
 # search space / data:
 search_space=nasbench201
-dataset=ImageNet16-120
+dataset=cifar10
 
 # other variables:
-trials=100
+trials=5
 end_seed=$(($start_seed + $trials - 1))
-save_to_s3=true
+save_to_s3=false
 test_size=200
+
+echo "Creating configs..."
 
 # create config files
 for i in $(seq 0 $((${#predictors[@]}-1)) )
@@ -44,6 +53,8 @@ do
     --test_size $test_size --start_seed $start_seed --trials $trials --out_dir $out_dir \
     --dataset=$dataset --config_type predictor --search_space $search_space
 done
+
+echo "created configs"
 
 # run experiments
 for t in $(seq $start_seed $end_seed)

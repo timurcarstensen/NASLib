@@ -1,6 +1,4 @@
 import logging
-import sys
-import naslib as nl
 
 from naslib.defaults.predictor_evaluator import PredictorEvaluator
 from naslib.defaults.trainer import Trainer
@@ -9,7 +7,6 @@ from naslib.predictors import OneShotPredictor
 
 from naslib.search_spaces import NasBench101SearchSpace, NasBench201SearchSpace, DartsSearchSpace
 from naslib.utils import utils, setup_logger, get_dataset_api
-from naslib.utils.utils import get_project_root
 
 
 config = utils.get_config_from_args(config_type='oneshot')

@@ -1,4 +1,3 @@
-from collections import namedtuple
 import ast
 import json
 from pathlib import Path

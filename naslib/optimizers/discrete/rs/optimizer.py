@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 
 from naslib.optimizers.core.metaclasses import MetaOptimizer

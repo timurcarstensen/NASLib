@@ -1,10 +1,6 @@
-import os
-import json
-import collections
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from IPython import embed
 
 
 colors={
@@ -131,8 +127,7 @@ def plot_losses(fig, ax, axins, incumbent_trajectories, regret=True,
     return (fig, ax)
 
 import networkx as nx
-import matplotlib.pyplot as plt
-from naslib.search_spaces.core.graph import Graph, EdgeData
+from naslib.search_spaces.core.graph import Graph
 from naslib.search_spaces.core.primitives import Identity
 
 def plot_cells():
@@ -212,9 +207,6 @@ def plot_cells():
 
     print()
 
-from naslib.utils import utils
-from naslib.search_spaces import DartsSearchSpace
-from naslib.optimizers import DARTSOptimizer
 import torch
 
 def params_from_checkpoint():

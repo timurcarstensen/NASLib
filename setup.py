@@ -52,7 +52,6 @@ requires = [
     "coverage",
 ]
 
-import subprocess
 
 git_nasbench = "git+https://github.com/google-research/nasbench.git@master"
 

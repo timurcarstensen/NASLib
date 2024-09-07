@@ -4,9 +4,7 @@ import torch
 import logging
 import numpy as np
 import networkx as nx
-import pickle
 
-from collections import namedtuple
 from torch import nn
 from copy import deepcopy
 from ConfigSpace.read_and_write import json as config_space_json_r_w

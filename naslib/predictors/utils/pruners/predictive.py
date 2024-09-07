@@ -72,7 +72,7 @@ def find_measures_arrays(net_orig, trainloader, dataload_info, device, measure_n
             if 'out of memory' in str(e):
                 done=False
                 if ds == inputs.shape[0]//2:
-                    raise ValueError(f'Can\'t split data anymore, but still unable to run. Something is wrong') 
+                    raise ValueError('Can\'t split data anymore, but still unable to run. Something is wrong') 
                 ds += 1
                 while inputs.shape[0] % ds != 0:
                     ds += 1
