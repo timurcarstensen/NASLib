@@ -12,7 +12,7 @@ logger = setup_logger(os.path.join(utils.get_project_root().parent, "tmp", "test
 logger.handlers[0].setLevel(logging.FATAL)
 
 config = utils.AttrDict()
-config.dataset = 'cifar10'
+config.dataset = "cifar10"
 config.search = utils.AttrDict()
 config.search.grad_clip = None
 config.search.learning_rate = 0.01
@@ -33,20 +33,17 @@ if torch.cuda.is_available():
 
 
 class SimpleCellDartsIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = DARTSOptimizer(config)
         self.optimizer.adapt_search_space(SimpleCellSearchSpace())
         self.optimizer.before_training()
-        
 
     def test_update(self):
         stats = self.optimizer.step(data_train, data_val)
         self.assertTrue(len(stats) == 4)
         self.assertAlmostEqual(stats[2].detach().cpu().numpy(), 2.4303, places=3)
         self.assertAlmostEqual(stats[3].detach().cpu().numpy(), 2.4303, places=3)
-
 
     def test_feed_forward(self):
         final_arch = self.optimizer.get_final_architecture()
@@ -56,20 +53,17 @@ class SimpleCellDartsIntegrationTest(unittest.TestCase):
 
 
 class SimpleCellGdasIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = GDASOptimizer(config)
         self.optimizer.adapt_search_space(SimpleCellSearchSpace())
         self.optimizer.before_training()
-        
 
     def test_update(self):
         stats = self.optimizer.step(data_train, data_val)
         self.assertTrue(len(stats) == 4)
         self.assertAlmostEqual(stats[2].detach().cpu().numpy(), 2.4303, places=3)
         self.assertAlmostEqual(stats[3].detach().cpu().numpy(), 2.4303, places=3)
-
 
     def test_feed_forward(self):
         final_arch = self.optimizer.get_final_architecture()
@@ -78,5 +72,5 @@ class SimpleCellGdasIntegrationTest(unittest.TestCase):
         self.assertAlmostEqual(logits[0, 0].detach().cpu().numpy(), 0.0921, places=3)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

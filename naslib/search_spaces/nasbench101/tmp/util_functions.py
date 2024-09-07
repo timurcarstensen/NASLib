@@ -7,7 +7,14 @@ import ConfigSpace
 import numpy as np
 from nasbench import api
 
-from nasbench1shot1.core.utils import CONV1X1, CONV3X3, MAXPOOL3X3, INPUT, OUTPUT, upscale_to_nasbench_format
+from nasbench1shot1.core.utils import (
+    CONV1X1,
+    CONV3X3,
+    MAXPOOL3X3,
+    INPUT,
+    OUTPUT,
+    upscale_to_nasbench_format,
+)
 from nasbench1shot1.core.utils import parent_combinations as parent_combinations_old
 from nasbench1shot1.optimizers.oneshot.base.operations import PRIMITIVES
 
@@ -28,34 +35,43 @@ class SearchSpace(object):
         self.run_history = []
 
     def __str__(self):
-        return 'SearchSpace{}'.format(self.search_space_number)
+        return "SearchSpace{}".format(self.search_space_number)
 
     @abstractmethod
     def create_nasbench_adjacency_matrix(self, parents, **kwargs):
         """Based on given connectivity pattern create the corresponding adjacency matrix."""
         pass
 
-
     def sample(self, with_loose_ends, upscale=True):
         if with_loose_ends:
             adjacency_matrix_sample = self._sample_adjacency_matrix_with_loose_ends()
         else:
             adjacency_matrix_sample = self._sample_adjacency_matrix_without_loose_ends(
-                adjacency_matrix=np.zeros([self.num_intermediate_nodes + 2, self.num_intermediate_nodes + 2]),
-                node=self.num_intermediate_nodes + 1)
-            assert self._check_validity_of_adjacency_matrix(adjacency_matrix_sample), 'Incorrect graph'
+                adjacency_matrix=np.zeros(
+                    [self.num_intermediate_nodes + 2, self.num_intermediate_nodes + 2]
+                ),
+                node=self.num_intermediate_nodes + 1,
+            )
+            assert self._check_validity_of_adjacency_matrix(
+                adjacency_matrix_sample
+            ), "Incorrect graph"
 
         if upscale and self.search_space_number in [1, 2]:
-            adjacency_matrix_sample = upscale_to_nasbench_format(adjacency_matrix_sample)
-        return adjacency_matrix_sample, random.choices(PRIMITIVES, k=self.num_intermediate_nodes)
+            adjacency_matrix_sample = upscale_to_nasbench_format(
+                adjacency_matrix_sample
+            )
+        return adjacency_matrix_sample, random.choices(
+            PRIMITIVES, k=self.num_intermediate_nodes
+        )
 
     def _sample_adjacency_matrix_with_loose_ends(self):
-        parents_per_node = [random.sample(list(itertools.combinations(list(range(int(node))), num_parents)), 1) for
-                            node, num_parents in self.num_parents_per_node.items()][2:]
-        parents = {
-            '0': [],
-            '1': [0]
-        }
+        parents_per_node = [
+            random.sample(
+                list(itertools.combinations(list(range(int(node))), num_parents)), 1
+            )
+            for node, num_parents in self.num_parents_per_node.items()
+        ][2:]
+        parents = {"0": [], "1": [0]}
         for node, node_parent in enumerate(parents_per_node, 2):
             parents[str(node)] = node_parent
         adjacency_matrix = self._create_adjacency_matrix_with_loose_ends(parents)
@@ -65,11 +81,19 @@ class SearchSpace(object):
         req_num_parents = self.num_parents_per_node[str(node)]
         current_num_parents = np.sum(adjacency_matrix[:, node], dtype=np.int)
         num_parents_left = req_num_parents - current_num_parents
-        sampled_parents = \
-            random.sample(list(parent_combinations_old(adjacency_matrix, node, n_parents=num_parents_left)), 1)[0]
+        sampled_parents = random.sample(
+            list(
+                parent_combinations_old(
+                    adjacency_matrix, node, n_parents=num_parents_left
+                )
+            ),
+            1,
+        )[0]
         for parent in sampled_parents:
             adjacency_matrix[parent, node] = 1
-            adjacency_matrix = self._sample_adjacency_matrix_without_loose_ends(adjacency_matrix, parent)
+            adjacency_matrix = self._sample_adjacency_matrix_without_loose_ends(
+                adjacency_matrix, parent
+            )
         return adjacency_matrix
 
     @abstractmethod
@@ -78,35 +102,55 @@ class SearchSpace(object):
         pass
 
     def convert_config_to_nasbench_format(self, config):
-        parents = {node: config["choice_block_{}_parents".format(node)] for node in
-                   list(self.num_parents_per_node.keys())[1:]}
-        parents['0'] = []
-        adjacency_matrix = self.create_nasbench_adjacency_matrix_with_loose_ends(parents)
-        ops = [config["choice_block_{}_op".format(node)] for node in list(self.num_parents_per_node.keys())[1:-1]]
+        parents = {
+            node: config["choice_block_{}_parents".format(node)]
+            for node in list(self.num_parents_per_node.keys())[1:]
+        }
+        parents["0"] = []
+        adjacency_matrix = self.create_nasbench_adjacency_matrix_with_loose_ends(
+            parents
+        )
+        ops = [
+            config["choice_block_{}_op".format(node)]
+            for node in list(self.num_parents_per_node.keys())[1:-1]
+        ]
         return adjacency_matrix, ops
 
     def get_configuration_space(self):
         cs = ConfigSpace.ConfigurationSpace()
 
         for node in list(self.num_parents_per_node.keys())[1:-1]:
-            cs.add_hyperparameter(ConfigSpace.CategoricalHyperparameter("choice_block_{}_op".format(node),
-                                                                        [CONV1X1, CONV3X3, MAXPOOL3X3]))
+            cs.add_hyperparameter(
+                ConfigSpace.CategoricalHyperparameter(
+                    "choice_block_{}_op".format(node), [CONV1X1, CONV3X3, MAXPOOL3X3]
+                )
+            )
 
-        for choice_block_index, num_parents in list(self.num_parents_per_node.items())[1:]:
+        for choice_block_index, num_parents in list(self.num_parents_per_node.items())[
+            1:
+        ]:
             cs.add_hyperparameter(
                 ConfigSpace.CategoricalHyperparameter(
                     "choice_block_{}_parents".format(choice_block_index),
-                    parent_combinations(node=choice_block_index, num_parents=num_parents)))
+                    parent_combinations(
+                        node=choice_block_index, num_parents=num_parents
+                    ),
+                )
+            )
         return cs
 
     def generate_search_space_without_loose_ends(self):
         # Create all possible connectivity patterns
-        for iter, adjacency_matrix in enumerate(self.generate_adjacency_matrix_without_loose_ends()):
+        for iter, adjacency_matrix in enumerate(
+            self.generate_adjacency_matrix_without_loose_ends()
+        ):
             print(iter)
             # Print graph
             # Evaluate every possible combination of node ops.
             n_repeats = int(np.sum(np.sum(adjacency_matrix, axis=1)[1:-1] > 0))
-            for combination in itertools.product([CONV1X1, CONV3X3, MAXPOOL3X3], repeat=n_repeats):
+            for combination in itertools.product(
+                [CONV1X1, CONV3X3, MAXPOOL3X3], repeat=n_repeats
+            ):
                 # Create node labels
                 # Add some op as node 6 which isn't used, here conv1x1
                 ops = [INPUT]
@@ -116,7 +160,7 @@ class SearchSpace(object):
                         ops.append(combination.pop())
                     else:
                         ops.append(CONV1X1)
-                assert len(combination) == 0, 'Something is wrong'
+                assert len(combination) == 0, "Something is wrong"
                 ops.append(OUTPUT)
 
                 # Create nested list from numpy matrix
@@ -127,7 +171,8 @@ class SearchSpace(object):
                     # Adjacency matrix of the module
                     matrix=nasbench_adjacency_matrix,
                     # Operations at the vertices of the module, matches order of matrix
-                    ops=ops)
+                    ops=ops,
+                )
 
                 yield adjacency_matrix, ops, model_spec
 
@@ -140,13 +185,17 @@ class SearchSpace(object):
             current_num_parents = np.sum(adjacency_matrix[:, node], dtype=np.int)
             num_parents_left = req_num_parents - current_num_parents
 
-            for parents in parent_combinations_old(adjacency_matrix, node, n_parents=num_parents_left):
+            for parents in parent_combinations_old(
+                adjacency_matrix, node, n_parents=num_parents_left
+            ):
                 # Make copy of adjacency matrix so that when it returns to this stack
                 # it can continue with the unmodified adjacency matrix
                 adjacency_matrix_copy = copy.copy(adjacency_matrix)
                 for parent in parents:
                     adjacency_matrix_copy[parent, node] = 1
-                    for graph in self._generate_adjacency_matrix(adjacency_matrix=adjacency_matrix_copy, node=parent):
+                    for graph in self._generate_adjacency_matrix(
+                        adjacency_matrix=adjacency_matrix_copy, node=parent
+                    ):
                         yield graph
 
     def _create_adjacency_matrix(self, parents, adjacency_matrix, node):
@@ -157,8 +206,9 @@ class SearchSpace(object):
             for parent in parents[str(node)]:
                 adjacency_matrix[parent, node] = 1
                 if parent != 0:
-                    adjacency_matrix = self._create_adjacency_matrix(parents=parents, adjacency_matrix=adjacency_matrix,
-                                                                     node=parent)
+                    adjacency_matrix = self._create_adjacency_matrix(
+                        parents=parents, adjacency_matrix=adjacency_matrix, node=parent
+                    )
             return adjacency_matrix
 
     def _create_adjacency_matrix_with_loose_ends(self, parents):
@@ -181,7 +231,9 @@ class SearchSpace(object):
         :return:
         """
         # Check that the graph contains nodes
-        num_intermediate_nodes = sum(np.array(np.sum(adjacency_matrix, axis=1) > 0, dtype=int)[1:-1])
+        num_intermediate_nodes = sum(
+            np.array(np.sum(adjacency_matrix, axis=1) > 0, dtype=int)[1:-1]
+        )
         if num_intermediate_nodes == 0:
             return False
 
