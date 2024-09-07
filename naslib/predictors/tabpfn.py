@@ -31,6 +31,9 @@ class TabPFN(Predictor):
                 for arch in xtrain
             ]
         )
+
+        logger.info("xtrain type: %s", type(xtrain))
+        logger.info("ytrain type: %s", type(ytrain))
         logger.info("Fitting TabPFN")
         self.model.fit(xtrain, ytrain)
         logger.info("Fitted TabPFN")
