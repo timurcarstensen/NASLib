@@ -21,7 +21,7 @@ config_file=$1
 predictor=$2
 trial=$3
 
-base_file=/work/dlclarge1/carstent-timur_thesis_follow_up/NASLib
+base_file=/work/dlclarge1/carstent-timur_thesis_follow_up/NASLib/naslib
 
 echo "Config file: $config_file"
 echo "Predictor: $predictor"

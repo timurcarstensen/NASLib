@@ -1,20 +1,72 @@
-predictors=(fisher grad_norm grasp jacov snip synflow \
-lce lce_m sotl sotle valacc valloss \
-lcsvr omni_ngb omni_seminas \
-bananas bonas gcn mlp nao seminas \
-lgb ngb rf xgb \
-bayes_lin_reg bohamiann dngo \
-gp sparse_gp var_sparse_gp tabpfn)
+predictors=(
+    fisher
+    grad_norm
+    grasp
+    jacov
+    snip
+    synflow
+    lce
+    lce_m
+    sotl
+    sotle
+    valacc
+    valloss
+    lcsvr
+    omni_ngb
+    omni_seminas
+    bananas
+    bonas
+    gcn
+    mlp
+    nao
+    seminas
+    lgb
+    ngb
+    rf
+    xgb
+    bayes_lin_reg
+    bohamiann
+    dngo
+    gp
+    sparse_gp
+    var_sparse_gp
+    tabpfn
+)
 
-experiment_types=(single single single single single single \
-vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity vary_fidelity \
-vary_both vary_both vary_both \
-vary_train_size vary_train_size vary_train_size vary_train_size vary_train_size vary_train_size \
-vary_train_size vary_train_size vary_train_size vary_train_size \
-vary_train_size vary_train_size vary_train_size \
-vary_train_size vary_train_size vary_train_size vary_train_size) 
-
-# experiment_types=(vary_train_size vary_train_size)
+experiment_types=(
+    single
+    single
+    single
+    single
+    single
+    single
+    vary_fidelity
+    vary_fidelity
+    vary_fidelity
+    vary_fidelity
+    vary_fidelity
+    vary_fidelity
+    vary_both
+    vary_both
+    vary_both
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+    vary_train_size
+)
 
 start_seed=$1
 if [ -z "$start_seed" ]; then
