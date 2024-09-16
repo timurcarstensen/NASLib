@@ -22,6 +22,8 @@ class TabPFN(Predictor):
 
     def fit(self, xtrain, ytrain, train_info=None):
 
+        
+
         xtrain = np.array(
             [
                 encode(arch, encoding_type=self.encoding_type, ss_type=self.ss_type)
