@@ -197,6 +197,19 @@ def encode_seminas_nasbench201(arch):
     return dic
 
 
+def encode_flat_nasbench201(arch):
+    """
+    Flatten both the adjacency matrix and operations into a single vector.
+    """
+    # Get the adjacency matrix and operations
+    gcn_encoding = encode_gcn_nasbench201(arch)
+    adjacency = gcn_encoding['adjacency']
+    operations = gcn_encoding['operations']
+    
+    # Concatenate the flattened arrays
+    return np.concatenate([adjacency.flatten(), operations.flatten()])
+
+
 def encode_201(arch, encoding_type="adjacency_one_hot"):
     if encoding_type == "adjacency_one_hot":
         return encode_adjacency_one_hot(arch)
@@ -212,6 +225,9 @@ def encode_201(arch, encoding_type="adjacency_one_hot"):
 
     elif encoding_type == "seminas":
         return encode_seminas_nasbench201(arch)
+
+    elif encoding_type == "flat":  # Add this new condition
+        return encode_flat_nasbench201(arch)
 
     else:
         logger.info(

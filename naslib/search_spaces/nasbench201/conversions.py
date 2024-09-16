@@ -95,3 +95,27 @@ def convert_naslib_to_str(naslib_object):
     ]
 
     return "|{}|+|{}|{}|+|{}|{}|{}|".format(*op_edge_list)
+
+
+def convert_op_indices_to_str(op_indices):
+    """
+    Converts op indices to string representation.
+    input: op_indices (list of six ints)
+    output: string representation
+    """
+    ops_to_nb201 = {
+        "AvgPool1x1": "avg_pool_3x3",
+        "ReLUConvBN1x1": "nor_conv_1x1",
+        "ReLUConvBN3x3": "nor_conv_3x3",
+        "Identity": "skip_connect",
+        "Zero": "none",
+    }
+
+    edge_op_dict = {EDGE_LIST[i]: ops_to_nb201[OP_NAMES[index]] for i, index in enumerate(op_indices)}
+    
+    op_edge_list = [
+        f"{edge_op_dict[(i, j)]}~{i - 1}"
+        for i, j in sorted(EDGE_LIST, key=lambda x: x[1])
+    ]
+
+    return "|{}|+|{}|{}|+|{}|{}|{}|".format(*op_edge_list)

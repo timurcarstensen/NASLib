@@ -21,8 +21,6 @@ class TabPFN(Predictor):
         self.model = TabPFNRegressor()
 
     def fit(self, xtrain, ytrain, train_info=None):
-        if self.encoding_type != "adjacency_one_hot":
-            raise NotImplementedError()
 
         xtrain = np.array(
             [
@@ -47,10 +45,6 @@ class TabPFN(Predictor):
                     for arch in xtest
                 ]
             )
-
-        else:
-            # when used in aug_lcsvr we feed in ndarray directly
-            xtest = xtest
 
         return np.squeeze(self.model.predict(xtest))
 
