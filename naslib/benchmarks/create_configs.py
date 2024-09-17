@@ -68,16 +68,19 @@ def main(args):
             total_epochs = 50 - 1
             max_train_size = 1000
 
-        train_size_list = [
-            int(j)
-            for j in np.logspace(
-                start=np.log(5.1) / np.log(2),
-                stop=np.log(max_train_size) / np.log(2),
-                num=11,
-                endpoint=True,
-                base=2.0,
-            )
-        ]
+        if hasattr(args, 'train_size_list') and args.train_size_list:
+            train_size_list = [int(size.strip()) for size in args.train_size_list.split(',')]
+        else:
+            train_size_list = [
+                int(j)
+                for j in np.logspace(
+                    start=np.log(5.1) / np.log(2),
+                    stop=np.log(max_train_size) / np.log(2),
+                    num=11,
+                    endpoint=True,
+                    base=2.0,
+                )
+            ]
         fidelity_list = [
             int(j)
             for j in np.logspace(
