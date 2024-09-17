@@ -119,9 +119,7 @@ class PredictorEvaluator(object):
                     )[hp]
         return accuracy, train_time, info_dict
 
-    def load_dataset(
-        self, load_labeled=False, data_size=10, arch_hash_map={}, fname="test"
-    ):
+    def load_dataset(self, load_labeled=False, data_size=10, arch_hash_map={}):
         """
         There are two ways to load an architecture.
         load_labeled=False: sample a random architecture from the search space.
@@ -159,17 +157,6 @@ class PredictorEvaluator(object):
             info.append(info_dict)
             train_times.append(train_time)
             arch_strings.append(arch.get_hash())  # Add architecture string to the list
-
-        # Write architecture strings to a file
-        if fname is not None:
-            file_name = f"arch_strings_{data_size}_{fname}.txt"
-            with open(file_name, "w") as f:
-                for arch_str in arch_strings:
-                    f.write(f"{arch_str}\n")
-
-            logger.info(
-                f"Wrote {len(arch_strings)} architecture strings to {file_name}"
-            )
 
         return [xdata, ydata, info, train_times], arch_hash_map
 
@@ -323,21 +310,6 @@ class PredictorEvaluator(object):
         if len(test_pred.shape) > 1:
             test_pred = np.mean(test_pred, axis=0)
 
-        # Save data to .pt file if it doesn't exist yet
-        file_name = f'data_samples_{train_size}.pt'
-        if not os.path.exists(file_name):
-            data_to_save = {
-                'xtrain': xtrain,
-                'ytrain': ytrain,
-                'xtest': xtest,
-                'ytest': ytest,
-                'ypred': test_pred
-            }
-            torch.save(data_to_save, file_name)
-            logger.info(f"Saved data to {file_name}")
-        else:
-            logger.info(f"File {file_name} already exists, skipping save")
-
         logger.info("Compute evaluation metrics")
         results_dict = self.compare(ytest, test_pred)
         results_dict["train_size"] = train_size
@@ -374,7 +346,7 @@ class PredictorEvaluator(object):
         if self.uniform_random:
             logger.info("Loading test dataset with uniform random")
             test_data, arch_hash_map = self.load_dataset(
-                load_labeled=self.load_labeled, data_size=self.test_size, fname="test"
+                load_labeled=self.load_labeled, data_size=self.test_size
             )
         else:
             test_data, arch_hash_map = self.load_mutated_test(data_size=self.test_size)
@@ -391,7 +363,6 @@ class PredictorEvaluator(object):
                 load_labeled=self.load_labeled,
                 data_size=max_train_size,
                 arch_hash_map=arch_hash_map,
-                fname="train",
             )
         else:
             full_train_data, _ = self.load_mutated_train(

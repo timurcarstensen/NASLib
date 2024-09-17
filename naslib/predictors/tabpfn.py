@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 from tabpfn_client import TabPFNRegressor, init
 
 from naslib.predictors.utils.encodings import encode
@@ -12,18 +13,16 @@ class TabPFN(Predictor):
         encoding_type="adjacency_one_hot",
         ss_type=None,
         hpo_wrapper=False,
+        n_estimators=8,
     ):
         super().__init__()
         self.encoding_type = encoding_type
         self.ss_type = ss_type
         self.hpo_wrapper = hpo_wrapper
         init()
-        self.model = TabPFNRegressor()
+        self.model = TabPFNRegressor(n_estimators=n_estimators)
 
     def fit(self, xtrain, ytrain, train_info=None):
-
-        
-
         xtrain = np.array(
             [
                 encode(arch, encoding_type=self.encoding_type, ss_type=self.ss_type)
@@ -40,14 +39,12 @@ class TabPFN(Predictor):
 
     def query(self, xtest, info=None):
         if type(xtest) is list:
-            #  when used in itself, we use
             xtest = np.array(
                 [
                     encode(arch, encoding_type=self.encoding_type, ss_type=self.ss_type)
                     for arch in xtest
                 ]
             )
-
         return np.squeeze(self.model.predict(xtest))
 
     def predict(self, xtest, info=None):

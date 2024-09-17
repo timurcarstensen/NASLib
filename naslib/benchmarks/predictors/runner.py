@@ -50,7 +50,10 @@ logger.setLevel(logging.INFO)
 utils.log_args(config)
 
 supported_predictors = {
-    "tabpfn": TabPFN(encoding_type="flat", hpo_wrapper=False),
+    "tabpfn_8": TabPFN(encoding_type="flat", hpo_wrapper=False, n_estimators=8),
+    "tabpfn_32": TabPFN(encoding_type="flat", hpo_wrapper=False, n_estimators=32),
+    "tabpfn_64": TabPFN(encoding_type="flat", hpo_wrapper=False, n_estimators=64),
+    "tabpfn_128": TabPFN(encoding_type="flat", hpo_wrapper=False, n_estimators=128),
     "bananas": Ensemble(predictor_type="bananas", num_ensemble=3, hpo_wrapper=True),
     "bayes_lin_reg": BayesianLinearRegression(encoding_type="adjacency_one_hot"),
     "bohamiann": BOHAMIANN(encoding_type="adjacency_one_hot"),
