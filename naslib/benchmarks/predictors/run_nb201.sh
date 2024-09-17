@@ -1,16 +1,6 @@
 predictors=(
-    # fisher TODO: ditch zcps
-    # grad_norm TODO: ditch multi-fidelity
-    # grasp
-    # jacov
-    # snip
-    # synflow
     # lce
     # lce_m
-    # sotl
-    # sotle
-    # valacc
-    # valloss
     # lcsvr
     # omni_ngb
     # omni_seminas
@@ -30,25 +20,13 @@ predictors=(
     # gp
     # sparse_gp
     # var_sparse_gp
-    tabpfn
+    # tabpfn_8
+    tabpfn_32
+    tabpfn_64
+    tabpfn_128
 )
 
 experiment_types=(
-    # single
-    # single
-    # single
-    # single
-    # single
-    # single
-    # vary_fidelity
-    # vary_fidelity
-    # vary_fidelity
-    # vary_fidelity
-    # vary_fidelity
-    # vary_fidelity
-    # vary_both
-    # vary_both
-    # vary_both
     # vary_train_size
     # vary_train_size
     # vary_train_size
@@ -65,6 +43,14 @@ experiment_types=(
     # vary_train_size
     # vary_train_size
     # vary_train_size
+    # vary_train_size
+    # vary_train_size
+    # vary_train_size
+    # vary_train_size
+    # vary_train_size
+    # vary_train_size
+    vary_train_size
+    vary_train_size
     vary_train_size
 )
 
@@ -83,9 +69,9 @@ search_space=nasbench201
 datasets=(cifar10 cifar100 ImageNet16-120)
 
 # other variables:
-trials=5
+trials=1
 end_seed=$(($start_seed + $trials - 1))
-test_size=1000
+test_size=500
 
 echo "Creating configs..."
 
@@ -102,7 +88,7 @@ done
 echo "created configs"
 
 # Create a job array file
-job_array_file="job_array_${start_seed}.txt"
+job_array_file="job_array_nb201_${start_seed}.txt"
 > $job_array_file
 
 # Populate the job array file
