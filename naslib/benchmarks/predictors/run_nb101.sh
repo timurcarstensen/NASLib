@@ -71,7 +71,7 @@ for dataset in "${datasets[@]}"; do
         experiment_type=${experiment_types[$i]}
         python $base_file/benchmarks/create_configs.py --predictor $predictor --experiment_type $experiment_type \
             --test_size $test_size --start_seed $start_seed --trials $trials --out_dir $out_dir \
-            --dataset $dataset --config_type predictor --search_space $search_space
+            --dataset $dataset --config_type predictor --search_space $search_space --fidelity_single 106
     done
 done
 
