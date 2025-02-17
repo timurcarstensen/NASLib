@@ -20,7 +20,7 @@ predictors=(
     # gp
     # sparse_gp
     # var_sparse_gp
-    # tabpfn_8
+    tabpfn_8
     tabpfn_32
     tabpfn_64
     tabpfn_128
@@ -48,7 +48,7 @@ experiment_types=(
     # vary_train_size
     # vary_train_size
     # vary_train_size
-    # vary_train_size
+    vary_train_size
     vary_train_size
     vary_train_size
     vary_train_size

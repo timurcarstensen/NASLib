@@ -157,6 +157,36 @@ def encode_seminas(spec):
     }
     return dic
 
+def encode_seminas_flat(spec):
+    dic = encode_seminas(spec)
+    
+    # Flatten all components
+    flat_representation = np.concatenate([
+        np.array([dic["num_vertices"]], dtype=np.float32),
+        dic["adjacency"].flatten(),
+        np.array(dic["operations"], dtype=np.float32),
+        dic["mask"],
+        np.array([dic["val_acc"]], dtype=np.float32)
+    ])
+
+    return flat_representation
+
+def encode_gcn_flat(spec):
+    """
+    Flat version of GCN encoding
+    """
+    dic = encode_gcn(spec)
+    
+    # Flatten all components
+    flat_representation = np.concatenate([
+        np.array([dic["num_vertices"]], dtype=np.float32),
+        dic["adjacency"].flatten(),
+        dic["operations"].flatten(),
+        dic["mask"],
+        np.array([dic["val_acc"]], dtype=np.float32)
+    ])
+
+    return flat_representation
 
 def encode_101(arch, encoding_type="path"):
     spec = arch.get_spec()
@@ -170,8 +200,14 @@ def encode_101(arch, encoding_type="path"):
     elif encoding_type == "gcn":
         return encode_gcn(spec=spec)
 
+    elif encoding_type == "gcn_flat":
+        return encode_gcn_flat(spec=spec)
+
     elif encoding_type == "seminas":
         return encode_seminas(spec=spec)
+
+    elif encoding_type == "seminas_flat":
+        return encode_seminas_flat(spec=spec)
 
     elif encoding_type == "bonas":
         return encode_bonas(spec=spec)

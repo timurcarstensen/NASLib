@@ -1,25 +1,25 @@
 predictors=(
-    lce 
-    lce_m 
-    lcsvr
-    omni_ngb
-    omni_seminas
-    bananas
-    bonas
-    gcn
-    mlp
-    nao
-    seminas
-    lgb
-    ngb
-    rf
-    xgb
-    bayes_lin_reg
-    bohamiann
-    dngo
-    gp
-    sparse_gp
-    var_sparse_gp
+    # lce 
+    # lce_m 
+    # lcsvr
+    # omni_ngb
+    # omni_seminas
+    # bananas
+    # bonas
+    # gcn
+    # mlp
+    # nao
+    # seminas
+    # lgb
+    # ngb
+    # rf
+    # xgb
+    # bayes_lin_reg
+    # bohamiann
+    # dngo
+    # gp
+    # sparse_gp
+    # var_sparse_gp
     tabpfn_8
     tabpfn_32
     tabpfn_64
@@ -27,27 +27,27 @@ predictors=(
 )
 
 experiment_types=(
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
-    vary_train_size
-    vary_train_size 
-    vary_train_size 
-    vary_train_size
-    vary_train_size 
-    vary_train_size 
-    vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size
+    # vary_train_size 
+    # vary_train_size 
+    # vary_train_size 
     vary_train_size 
     vary_train_size 
     vary_train_size 

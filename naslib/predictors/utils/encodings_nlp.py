@@ -108,6 +108,22 @@ def encode_gcn(compact, num=25):
     }
     return dic
 
+def encode_gcn_flat(compact, num=25):
+    """
+    Encodes the architecture using GCN encoding and returns a flattened vector.
+    """
+    gcn_dict = encode_gcn(compact, num)
+    
+    # Flatten and concatenate all elements in the dictionary
+    flattened = []
+    flattened.append(gcn_dict["num_vertices"])
+    # flattened.extend(gcn_dict["adjacency"].flatten())
+    flattened.extend(gcn_dict["operations"].flatten())
+    flattened.extend(gcn_dict["mask"])
+    # flattened.append(gcn_dict["val_acc"])
+    
+    return np.array(flattened)
+
 
 def encode_nlp(arch, encoding_type="path", num=25):
     # 'num' is the maximum number of nodes in the search space
@@ -125,6 +141,9 @@ def encode_nlp(arch, encoding_type="path", num=25):
 
     elif encoding_type == "compact":
         return compact
+    
+    elif encoding_type == "gcn_flat":
+        return encode_gcn_flat(compact=compact, num=num)
 
     else:
         print(

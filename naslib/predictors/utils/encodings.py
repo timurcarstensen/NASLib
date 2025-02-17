@@ -197,6 +197,27 @@ def encode_seminas_nasbench201(arch):
     return dic
 
 
+def encode_seminas_nasbench201_flat(arch):
+    """
+    Input:
+    a list of categorical ops starting from 0
+    Returns:
+    A flattened representation of the architecture
+    """
+    dic = encode_seminas_nasbench201(arch)
+    
+    # Flatten all components
+    flat_representation = np.concatenate([
+        np.array([dic["num_vertices"]], dtype=np.float32),
+        dic["adjacency"].flatten(),
+        np.array(dic["operations"], dtype=np.float32),
+        dic["mask"],
+        np.array([dic["val_acc"]], dtype=np.float32)
+    ])
+
+    return flat_representation
+
+
 def encode_flat_nasbench201(arch):
     """
     Flatten both the adjacency matrix and operations into a single vector.
@@ -210,6 +231,24 @@ def encode_flat_nasbench201(arch):
     return np.concatenate([adjacency.flatten(), operations.flatten()])
 
 
+def encode_gcn_nasbench201_flat(arch):
+    """
+    Flat version of GCN encoding for NASBench-201
+    """
+    dic = encode_gcn_nasbench201(arch)
+    
+    # Flatten all components
+    flat_representation = np.concatenate([
+        np.array([dic["num_vertices"]], dtype=np.float32),
+        dic["adjacency"].flatten(),
+        dic["operations"].flatten(),
+        dic["mask"],
+        np.array([dic["val_acc"]], dtype=np.float32)
+    ])
+
+    return flat_representation
+
+
 def encode_201(arch, encoding_type="adjacency_one_hot"):
     if encoding_type == "adjacency_one_hot":
         return encode_adjacency_one_hot(arch)
@@ -220,13 +259,19 @@ def encode_201(arch, encoding_type="adjacency_one_hot"):
     elif encoding_type == "gcn":
         return encode_gcn_nasbench201(arch)
 
+    elif encoding_type == "gcn_flat":
+        return encode_gcn_nasbench201_flat(arch)
+
     elif encoding_type == "bonas":
         return encode_bonas_nasbench201(arch)
 
     elif encoding_type == "seminas":
         return encode_seminas_nasbench201(arch)
+    
+    elif encoding_type == "seminas_flat":
+        return encode_seminas_nasbench201_flat(arch)
 
-    elif encoding_type == "flat":  # Add this new condition
+    elif encoding_type == "flat":
         return encode_flat_nasbench201(arch)
 
     else:

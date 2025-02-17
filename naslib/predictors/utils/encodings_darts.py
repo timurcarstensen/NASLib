@@ -267,6 +267,16 @@ def encode_gcn(arch):
     }
     return dic
 
+def encode_gcn_flat(arch):
+    gcn_dict = encode_gcn(arch)
+    
+    flattened = []
+    flattened.append(gcn_dict["num_vertices"])
+    # flattened.extend(gcn_dict["adjacency"].flatten())
+    flattened.extend(gcn_dict["operations"].flatten())
+    flattened.append(gcn_dict["val_acc"])
+    
+    return np.array(flattened)
 
 def encode_darts(arch, encoding_type="path"):
     compact = arch.get_compact()
@@ -288,6 +298,9 @@ def encode_darts(arch, encoding_type="path"):
 
     elif encoding_type == "gcn":
         return encode_gcn(arch=compact)
+
+    elif encoding_type == "gcn_flat":
+        return encode_gcn_flat(arch=compact)
 
     else:
         print(
